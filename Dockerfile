@@ -7,8 +7,8 @@ ENV TZ=Asia/Shanghai
 ENV GIT_SSL_NO_VERIFY=1
 ENV FORCE_UNSAFE_CONFIGURE=1
 
-RUN sed -i s:/archive.ubuntu.com:/mirrors.tuna.tsinghua.edu.cn/ubuntu:g /etc/apt/sources.list
-RUN apt-get clean
+#RUN sed -i s:/archive.ubuntu.com:/mirrors.tuna.tsinghua.edu.cn/ubuntu:g /etc/apt/sources.list
+#RUN apt-get clean
 
 RUN apt-get -y update --fix-missing && \
     apt-get install -y \
