@@ -47,13 +47,17 @@ RUN apt-get -y update --fix-missing && \
     python-distutils-extra \
     java-propose-classpath
 
+RUN npm -v
+
 RUN npm cache clean -f && \
-    npm install -g node && \
-    node stable && \
-    /bin/bash
+    npm install -g n && \
+    n stable && \
+    /bin/bash && \
+    node -v
 
 RUN npm install -g npm@8.19.2 &&\
-    /bin/bash
+    /bin/bash && \
+    npm -v
 
 WORKDIR /home
 
