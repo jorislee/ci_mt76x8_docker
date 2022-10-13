@@ -1,29 +1,71 @@
 
-FROM sioiot/ci_openwrt_docker:mt7628
+#ubuntu
+FROM ubuntu:20.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Asia/Shanghai
+ENV GIT_SSL_NO_VERIFY=1
+ENV FORCE_UNSAFE_CONFIGURE=1
 
+RUN sed -i s:/archive.ubuntu.com:/mirrors.tuna.tsinghua.edu.cn/ubuntu:g /etc/apt/sources.list
+RUN apt-get clean
 
-RUN apt-get update && \
+RUN apt-get -y update --fix-missing && \
     apt-get install -y \
+    ecj \
+    git \
+    vim \
     npm \
-    vim
+    g++ \
+    gcc \
+    file \
+    swig \
+    wget \
+    time \
+    make \
+    cmake \
+    gawk \
+    unzip \
+    rsync \
+    ccache \
+    fastjar \
+    gettext \
+    xsltproc \
+    apt-utils \
+    libssl-dev \
+    libelf-dev \
+    zlib1g-dev \
+    subversion \
+    build-essential \
+    libncurses5-dev \
+    libncursesw5-dev \
+    python \
+    python3 \
+    python3-dev \
+    python2.7-dev \
+    python3-setuptools \
+    python-distutils-extra \
+    java-propose-classpath
 
 RUN npm cache clean -f && \
-    npm install -g n && \
-    n stable && \
+    npm install -g node && \
+    node stable && \
     /bin/bash
 
 RUN npm install -g npm@8.19.2 &&\
     /bin/bash
 
+WORKDIR /home
+
+RUN git clone -b openwrt-19.07 --recursive https://github.com/openwrt/openwrt.git
+
 WORKDIR /home/openwrt
+
+RUN ./scripts/feeds update -a && ./scripts/feeds install -a
 
 RUN echo "src-git oui https://github.com/jorislee/oui.git" >> feeds.conf.default
 
-RUN ./scripts/feeds update -a
-RUN ./scripts/feeds install -a -p oui
+RUN ./scripts/feeds update -a && ./scripts/feeds install -a -p oui
 
 RUN rm -rf ./feeds/oui/nginx ./package/feeds/oui/nginx
 RUN rm -rf ./feeds/packages/net/nginx ./package/feeds/packages/nginx
@@ -57,6 +99,8 @@ RUN rm -f .config* && touch .config && \
 
 RUN make defconfig
 
-RUN make V=s
+RUN make download -j8
+
+RUN make -j1 V=s
 
 CMD [ "/bin/bash" ]
