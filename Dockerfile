@@ -30,7 +30,6 @@ RUN rm -rf ./feeds/packages/net/nginx ./package/feeds/packages/nginx
 
 COPY ./HLK-7628N.dts target/linux/ramips/dts/HLK-7628N.dts
 
-
 RUN rm -f .config* && touch .config && \
     echo "CONFIG_HOST_OS_LINUX=y" >> .config && \
     echo "CONFIG_TARGET_ramips=y" >> .config && \
@@ -59,3 +58,5 @@ RUN rm -f .config* && touch .config && \
 RUN make defconfig
 
 RUN make V=s
+
+CMD [ "/bin/bash" ]
