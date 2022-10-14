@@ -61,7 +61,7 @@ RUN npm install -g npm@8.19.2 &&\
 
 WORKDIR /home
 
-RUN git clone -b openwrt-19.07 --recursive https://github.com/openwrt/openwrt.git
+RUN git clone -b openwrt-21.02 --recursive https://github.com/openwrt/openwrt.git
 
 WORKDIR /home/openwrt
 
@@ -71,10 +71,10 @@ RUN echo "src-git oui https://github.com/jorislee/oui.git" >> feeds.conf.default
 
 RUN ./scripts/feeds update -a && ./scripts/feeds install -a -p oui
 
-RUN rm -rf ./feeds/oui/nginx ./package/feeds/oui/nginx
+RUN rm -rf ./feeds/oui/nginx-19.07 ./package/feeds/oui/nginx-19.07
 RUN rm -rf ./feeds/packages/net/nginx ./package/feeds/packages/nginx
 
-COPY ./HLK-7628N.dts target/linux/ramips/dts/HLK-7628N.dts
+COPY ./HLK-7628N.dts ./target/linux/ramips/dts/mt7628an_hilink_hlk-7628n.dts
 
 RUN rm -f .config* && touch .config && \
     echo "CONFIG_HOST_OS_LINUX=y" >> .config && \
