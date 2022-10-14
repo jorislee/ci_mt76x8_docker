@@ -107,6 +107,6 @@ RUN make defconfig
 
 RUN make download -j8
 
-RUN make -j1 V=sw
+RUN make -j1 V=w
 
 CMD [ "/bin/bash" ]
