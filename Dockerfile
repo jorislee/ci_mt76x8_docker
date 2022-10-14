@@ -74,6 +74,10 @@ RUN ./scripts/feeds update -a && ./scripts/feeds install -a -p oui
 RUN rm -rf ./feeds/oui/nginx ./package/feeds/oui/nginx
 RUN rm -rf ./feeds/packages/net/nginx ./package/feeds/packages/nginx
 
+RUN rm -rf ./target/linux/ramips/dts/HLK-7628N.dts
+
+COPY ./HLK-7628N.dts ./target/linux/ramips/dts/HLK-7628N.dts
+
 RUN rm -f .config* && touch .config && \
     echo "CONFIG_HOST_OS_LINUX=y" >> .config && \
     echo "CONFIG_TARGET_ramips=y" >> .config && \
