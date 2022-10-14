@@ -48,10 +48,6 @@
 	};
 };
 
-&gpio {
-	status = "okay";
-};
-
 &pinctrl {
 	state_default: pinctrl0 {
 		gpio {
