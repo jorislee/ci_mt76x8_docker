@@ -110,6 +110,7 @@ RUN make download -j8
 RUN make -j1 V=w
 
 RUN cp /home/openwrt/bin/targets/ramips/mt76x8/openwrt-toolchain-ramips-mt76x8_gcc-7.5.0_musl.Linux-x86_64.tar.bz2 /opt
+RUN cp /home/openwrt/bin/targets/ramips/mt76x8/openwrt-imagebuilder-ramips-mt76x8.Linux-x86_64.tar.xz /home
 
 WORKDIR /opt
 
@@ -117,6 +118,14 @@ RUN tar -jxvf openwrt-toolchain-ramips-mt76x8_gcc-7.5.0_musl.Linux-x86_64.tar.bz
     && rm openwrt-toolchain-ramips-mt76x8_gcc-7.5.0_musl.Linux-x86_64.tar.bz2
 
 ENV STAGING_DIR=/opt/openwrt-toolchain-ramips-mt76x8_gcc-7.5.0_musl.Linux-x86_64/toolchain-mipsel_24kc_gcc-7.5.0_musl/bin
+
+WORKDIR /home
+
+RUN tar -J -x -f openwrt-imagebuilder-ramips-mt76x8.Linux-x86_64.tar.xz && rm openwrt-imagebuilder-ramips-mt76x8.Linux-x86_64.tar.xz
+
+WORKDIR /home/openwrt-imagebuilder-ramips-mt76x8.Linux-x86_64
+
+RUN make image PROFILE="hilink_hlk-7628n" PACKAGES="wget vim bash"
 
 WORKDIR /home
 
