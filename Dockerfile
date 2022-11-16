@@ -109,4 +109,15 @@ RUN make download -j8
 
 RUN make -j1 V=w
 
+RUN cp /home/openwrt/bin/targets/ramips/mt76x8/openwrt-toolchain-ramips-mt76x8_gcc-7.5.0_musl.Linux-x86_64.tar.bz2 /opt
+
+WORKDIR /opt
+
+RUN tar -jxvf openwrt-toolchain-ramips-mt76x8_gcc-7.5.0_musl.Linux-x86_64.tar.bz2 \
+    && rm openwrt-toolchain-ramips-mt76x8_gcc-7.5.0_musl.Linux-x86_64.tar.bz2
+
+ENV STAGING_DIR=/opt/openwrt-toolchain-ramips-mt76x8_gcc-7.5.0_musl.Linux-x86_64/toolchain-mipsel_24kc_gcc-7.5.0_musl/bin
+
+WORKDIR /home
+
 CMD [ "/bin/bash" ]
