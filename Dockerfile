@@ -23,6 +23,7 @@ RUN apt-get -y update --fix-missing && \
     wget \
     time \
     make \
+    curl \
     cmake \
     gawk \
     unzip \
