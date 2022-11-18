@@ -66,12 +66,13 @@ RUN git clone -b openwrt-19.07 --recursive https://github.com/openwrt/openwrt.gi
 
 WORKDIR /home/openwrt
 
+RUN ./scripts/feeds update -a && ./scripts/feeds install -a
+RUN rm -rf ./feeds/packages/net/nginx ./package/feeds/packages/nginx
+
 RUN echo "src-git oui https://github.com/zhaojh329/oui.git" >> feeds.conf.default
 RUN echo "src-git nginx https://github.com/jorislee/openwrt-nginx-19.07.git" >> feeds.conf.default
 
-RUN ./scripts/feeds update -a && ./scripts/feeds install -a
-
-RUN rm -rf ./feeds/packages/net/nginx ./package/feeds/packages/nginx
+RUN ./scripts/feeds update -a && ./scripts/feeds install -a oui nginx
 
 RUN rm -rf ./target/linux/ramips/dts/HLK-7628N.dts
 COPY ./HLK-7628N.dts ./target/linux/ramips/dts/HLK-7628N.dts
