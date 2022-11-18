@@ -66,12 +66,10 @@ RUN git clone -b openwrt-19.07 --recursive https://github.com/openwrt/openwrt.gi
 
 WORKDIR /home/openwrt
 
-RUN ./scripts/feeds update -a && ./scripts/feeds install -a
-
 RUN echo "src-git oui https://github.com/zhaojh329/oui.git" >> feeds.conf.default
 RUN echo "src-git nginx-19.07 https://github.com/jorislee/openwrt-nginx-19.07.git" >> feeds.conf.default
 
-RUN ./scripts/feeds update -a && ./scripts/feeds install -a -p oui
+RUN ./scripts/feeds update -a && ./scripts/feeds install -a
 
 RUN rm -rf ./feeds/packages/net/nginx ./package/feeds/packages/nginx
 
