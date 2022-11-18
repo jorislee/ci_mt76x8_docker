@@ -70,7 +70,7 @@ RUN ./scripts/feeds update -a && ./scripts/feeds install -a
 RUN rm -rf ./feeds/packages/net/nginx ./package/feeds/packages/nginx
 
 RUN echo "src-git oui https://github.com/jorislee/oui.git" >> feeds.conf.default
-RUN ./scripts/feeds update oui && ./scripts/feeds install oui
+RUN ./scripts/feeds update oui && ./scripts/feeds install -a oui
 
 RUN rm -rf ./target/linux/ramips/dts/HLK-7628N.dts
 COPY ./HLK-7628N.dts ./target/linux/ramips/dts/HLK-7628N.dts
