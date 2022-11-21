@@ -67,8 +67,7 @@ WORKDIR /home/openwrt
 
 RUN ./scripts/feeds update -a \
     && ./scripts/feeds install -a \
-    && rm -rf ./feeds/packages/net/nginx \
-    && ./package/feeds/packages/nginx
+    && rm -rf feeds/packages/net/nginx package/feeds/packages/nginx
 
 RUN echo "src-git oui https://github.com/jorislee/oui.git" >> feeds.conf.default \
     && ./scripts/feeds update oui \
@@ -125,7 +124,7 @@ RUN rm -f .config* && touch .config && \
 
 RUN make download -j8 \
     && make -j1 V=w \
-    && rm -rf build_dir/toolchain-mipsel_24kc_gcc-7.5.0_musl/ build_dir/host build_dir/hostpkg/
+    && rm -rf build_dir/toolchain-mipsel_24kc_gcc-7.5.0_musl/ build_dir/host build_dir/hostpkg/ bin/
 
 RUN cp /home/openwrt/bin/targets/ramips/mt76x8/openwrt-toolchain-ramips-mt76x8_gcc-7.5.0_musl.Linux-x86_64.tar.bz2 /opt \
     && cd /opt \
