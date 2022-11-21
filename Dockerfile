@@ -65,13 +65,15 @@ RUN git clone -b openwrt-19.07 --recursive https://github.com/openwrt/openwrt.gi
 
 WORKDIR /home/openwrt
 
-RUN ./scripts/feeds update -a && ./scripts/feeds install -a
-RUN rm -rf ./feeds/packages/net/nginx ./package/feeds/packages/nginx
+RUN ./scripts/feeds update -a \
+    && ./scripts/feeds install -a \
+    && rm -rf ./feeds/packages/net/nginx \
+    && ./package/feeds/packages/nginx
 
-RUN echo "src-git oui https://github.com/jorislee/oui.git" >> feeds.conf.default
-RUN ./scripts/feeds update oui && ./scripts/feeds install -a oui
+RUN echo "src-git oui https://github.com/jorislee/oui.git" >> feeds.conf.default \
+    && ./scripts/feeds update oui \
+    && ./scripts/feeds install -a oui
 
-RUN rm -rf ./target/linux/ramips/dts/HLK-7628N.dts
 COPY ./HLK-7628N.dts ./target/linux/ramips/dts/HLK-7628N.dts
 
 RUN rm -f .config* && touch .config && \
@@ -118,11 +120,12 @@ RUN rm -f .config* && touch .config && \
     echo "CONFIG_PACKAGE_comgt=y" >> .config && \
     echo "CONFIG_PACKAGE_comgt-ncm=y" >> .config && \
     echo "CONFIG_PACKAGE_usb-modeswitch=y" >> .config && \
-    sed -i 's/^[ \t]*//g' .config
+    sed -i 's/^[ \t]*//g' .config && \
+    make defconfig
 
-RUN make defconfig
-
-RUN make download -j8 && make -j1 V=w && 
+RUN make download -j8 \
+    && make -j1 V=w \
+    && rm -rf build_dir/toolchain-mipsel_24kc_gcc-7.5.0_musl/ build_dir/host build_dir/hostpkg/
 
 RUN cp /home/openwrt/bin/targets/ramips/mt76x8/openwrt-toolchain-ramips-mt76x8_gcc-7.5.0_musl.Linux-x86_64.tar.bz2 /opt \
     && cd /opt \
