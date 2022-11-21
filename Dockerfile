@@ -46,9 +46,8 @@ RUN apt-get -y update --fix-missing && \
     python2.7-dev \
     python3-setuptools \
     python-distutils-extra \
-    java-propose-classpath
-
-RUN npm -v
+    java-propose-classpath \
+    && apt-get clean
 
 RUN npm cache clean -f && \
     npm install -g n && \
@@ -88,11 +87,6 @@ RUN rm -f .config* && touch .config && \
     echo "CONFIG_PACKAGE_bash=y" >> .config && \
     echo "CONFIG_PACKAGE_wget=y" >> .config && \
     echo "CONFIG_PACKAGE_ethtool=y" >> .config && \
-    echo "CONFIG_PACKAGE_oui-app-home=y" >> .config && \
-    echo "CONFIG_PACKAGE_oui-app-layout=y" >> .config && \
-    echo "CONFIG_PACKAGE_oui-app-login=y" >> .config && \
-    echo "CONFIG_PACKAGE_oui-app-system=y" >> .config && \
-    echo "CONFIG_PACKAGE_oui-app-user=y" >> .config && \
     echo "CONFIG_PACKAGE_oui-rpc-core=y" >> .config && \
     echo "CONFIG_PACKAGE_oui-ui-core=y" >> .config && \
     echo "CONFIG_OUI_USE_HOST_NODE=y" >> .config && \
@@ -128,23 +122,19 @@ RUN rm -f .config* && touch .config && \
 
 RUN make defconfig
 
-RUN make download -j8
+RUN make download -j8 && make -j1 V=w && 
 
-RUN make -j1 V=w
+RUN cp /home/openwrt/bin/targets/ramips/mt76x8/openwrt-toolchain-ramips-mt76x8_gcc-7.5.0_musl.Linux-x86_64.tar.bz2 /opt \
+    && cd /opt \
+    && tar -jxvf openwrt-toolchain-ramips-mt76x8_gcc-7.5.0_musl.Linux-x86_64.tar.bz2 \
+    && rm openwrt-toolchain-ramips-mt76x8_gcc-7.5.0_musl.Linux-x86_64.tar.bz2 \
+    && cd -
 
-RUN cp /home/openwrt/bin/targets/ramips/mt76x8/openwrt-toolchain-ramips-mt76x8_gcc-7.5.0_musl.Linux-x86_64.tar.bz2 /opt
-RUN cp /home/openwrt/bin/targets/ramips/mt76x8/openwrt-imagebuilder-ramips-mt76x8.Linux-x86_64.tar.xz /home
-
-WORKDIR /opt
-
-RUN tar -jxvf openwrt-toolchain-ramips-mt76x8_gcc-7.5.0_musl.Linux-x86_64.tar.bz2 \
-    && rm openwrt-toolchain-ramips-mt76x8_gcc-7.5.0_musl.Linux-x86_64.tar.bz2
-
-ENV STAGING_DIR=/opt/openwrt-toolchain-ramips-mt76x8_gcc-7.5.0_musl.Linux-x86_64/toolchain-mipsel_24kc_gcc-7.5.0_musl/bin
-
-WORKDIR /home
-
-RUN tar -J -x -f openwrt-imagebuilder-ramips-mt76x8.Linux-x86_64.tar.xz && rm openwrt-imagebuilder-ramips-mt76x8.Linux-x86_64.tar.xz
+RUN cp /home/openwrt/bin/targets/ramips/mt76x8/openwrt-imagebuilder-ramips-mt76x8.Linux-x86_64.tar.xz /home \
+    && cd /home \
+    && tar -J -x -f openwrt-imagebuilder-ramips-mt76x8.Linux-x86_64.tar.xz \
+    && rm openwrt-imagebuilder-ramips-mt76x8.Linux-x86_64.tar.xz \
+    && cd -
 
 WORKDIR /home/openwrt-imagebuilder-ramips-mt76x8.Linux-x86_64
 
