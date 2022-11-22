@@ -124,19 +124,18 @@ RUN rm -f .config* && touch .config && \
 
 RUN make download -j8 \
     && make -j1 V=w \
-    && rm -rf build_dir/toolchain-mipsel_24kc_gcc-7.5.0_musl/ build_dir/host build_dir/hostpkg/ bin/
-
-RUN cp /home/openwrt/bin/targets/ramips/mt76x8/openwrt-toolchain-ramips-mt76x8_gcc-7.5.0_musl.Linux-x86_64.tar.bz2 /opt \
+    && rm -rf build_dir/toolchain-mipsel_24kc_gcc-7.5.0_musl/ build_dir/host build_dir/hostpkg/ \
+    && cp bin/targets/ramips/mt76x8/openwrt-toolchain-ramips-mt76x8_gcc-7.5.0_musl.Linux-x86_64.tar.bz2 /opt \
     && cd /opt \
     && tar -jxvf openwrt-toolchain-ramips-mt76x8_gcc-7.5.0_musl.Linux-x86_64.tar.bz2 \
     && rm openwrt-toolchain-ramips-mt76x8_gcc-7.5.0_musl.Linux-x86_64.tar.bz2 \
-    && cd -
-
-RUN cp /home/openwrt/bin/targets/ramips/mt76x8/openwrt-imagebuilder-ramips-mt76x8.Linux-x86_64.tar.xz /home \
+    && cd - \
+    && cp bin/targets/ramips/mt76x8/openwrt-imagebuilder-ramips-mt76x8.Linux-x86_64.tar.xz /home \
     && cd /home \
     && tar -J -x -f openwrt-imagebuilder-ramips-mt76x8.Linux-x86_64.tar.xz \
     && rm openwrt-imagebuilder-ramips-mt76x8.Linux-x86_64.tar.xz \
-    && cd -
+    && cd - \
+    && rm bin
 
 WORKDIR /home/openwrt-imagebuilder-ramips-mt76x8.Linux-x86_64
 
