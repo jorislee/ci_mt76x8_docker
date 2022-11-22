@@ -133,7 +133,7 @@ RUN make download -j8 \
     && cd /home \
     && tar -J -x -f openwrt-imagebuilder-ramips-mt76x8.Linux-x86_64.tar.xz \
     && rm openwrt-imagebuilder-ramips-mt76x8.Linux-x86_64.tar.xz \
-    && cd /home/openwrt
+    && cd /home/openwrt \
     && rm -rf ./bin/
 
 WORKDIR /home/openwrt-imagebuilder-ramips-mt76x8.Linux-x86_64
