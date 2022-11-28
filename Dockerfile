@@ -119,6 +119,8 @@ RUN rm -f .config* && touch .config && \
     echo "CONFIG_PACKAGE_comgt=y" >> .config && \
     echo "CONFIG_PACKAGE_comgt-ncm=y" >> .config && \
     echo "CONFIG_PACKAGE_usb-modeswitch=y" >> .config && \
+    echo "CONFIG_PACKAGE_qmi-utils=y" >> .config && \
+    echo "CONFIG_PACKAGE_usbutils=y" >> .config && \
     sed -i 's/^[ \t]*//g' .config && \
     make defconfig
 
