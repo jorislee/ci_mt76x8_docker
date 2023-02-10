@@ -1,6 +1,6 @@
-# ci_mt7628_docker
+# ci_mt76x8_docker
 
-build mt7628 chip program
+build mt76x8 chip program
 
 
-docker build -t mt7628:v1 .
+docker build -t mt76x8:v1 .
