@@ -10,22 +10,12 @@
 	compatible = "hilink,hlk-7628n", "mediatek,mt7628an-soc";
 	model = "HILINK HLK-7628N";
 
-	memory@0 {
-		device_type = "memory";
-		reg = <0x0 0x8000000>;
-	};
-
-	chosen {
-		bootargs = "console=ttyS0,57600";
-	};
-
 	keys {
-		compatible = "gpio-keys-polled";
-		poll-interval = <20>;
+		compatible = "gpio-keys";
 
 		reset {
 			label = "reset";
-			gpios = <&gpio1 6 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio 38 GPIO_ACTIVE_LOW>;
 			linux,code = <KEY_RESTART>;
 		};
 	};
@@ -34,26 +24,24 @@
 		compatible = "gpio-leds";
 
 		wlan {
-			label = "hlk-7628n:green:wlan";
-			gpios = <&gpio1 12 GPIO_ACTIVE_LOW>;
+			label = "green:wlan";
+			gpios = <&gpio 44 GPIO_ACTIVE_LOW>;
 		};
 		work {
-			label = "hlk-7628n:green:work";
-			gpios = <&gpio0 2 GPIO_ACTIVE_HIGH>;
+			label = "green:work";
+			gpios = <&gpio 34 GPIO_ACTIVE_HIGH>;
 		};
 		warn {
-			label = "hlk-7628n:red:warn";
-			gpios = <&gpio0 3 GPIO_ACTIVE_HIGH>;
+			label = "red:warn";
+			gpios = <&gpio 35 GPIO_ACTIVE_HIGH>;
 		};
 	};
 };
 
-&pinctrl {
-	state_default: pinctrl0 {
-		gpio {
-			ralink,group = "i2c", "i2s";
-			ralink,function = "gpio";
-		};
+&state_default {
+	gpio {
+		group = "i2c", "i2s";
+		function = "gpio";
 	};
 };
 
@@ -99,6 +87,10 @@
 			};
 		};
 	};
+};
+
+&ethernet {
+	mtd-mac-address = <&factory 0x28>;
 };
 
 &wmac {
