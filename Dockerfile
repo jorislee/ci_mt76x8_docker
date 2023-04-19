@@ -55,7 +55,7 @@ RUN npm cache clean -f && \
     /bin/bash && \
     node -v
 
-RUN npm install -g npm@8.19.2 &&\
+RUN npm install -g npm@9.6.4 &&\
     /bin/bash && \
     npm -v
 
