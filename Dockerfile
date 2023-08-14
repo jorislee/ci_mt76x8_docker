@@ -14,6 +14,7 @@ RUN apt-get -y update --fix-missing && \
     apt-get install -y \
     ecj \
     git \
+    zip \
     vim \
     npm \
     g++ \
