@@ -61,7 +61,7 @@ RUN npm install -g npm@8.19.2 &&\
 
 WORKDIR /home
 
-RUN git clone -b openwrt-23.05 --recursive https://github.com/openwrt/openwrt.git
+RUN git clone -b openwrt-22.03 --recursive https://github.com/openwrt/openwrt.git
 
 WORKDIR /home/openwrt
 
