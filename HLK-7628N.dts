@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: GPL-2.0-or-later OR MIT
-/dts-v1/;
 
 #include "mt7628an.dtsi"
 
@@ -27,20 +26,12 @@
 			label = "green:wlan";
 			gpios = <&gpio 44 GPIO_ACTIVE_LOW>;
 		};
-		work {
-			label = "green:work";
-			gpios = <&gpio 34 GPIO_ACTIVE_HIGH>;
-		};
-		warn {
-			label = "red:warn";
-			gpios = <&gpio 35 GPIO_ACTIVE_HIGH>;
-		};
 	};
 };
 
 &state_default {
 	gpio {
-		group = "i2c", "i2s";
+		groups = "i2c";
 		function = "gpio";
 	};
 };
@@ -56,6 +47,7 @@
 		compatible = "jedec,spi-nor";
 		reg = <0>;
 		spi-max-frequency = <10000000>;
+		broken-flash-reset;
 
 		partitions {
 			compatible = "fixed-partitions";
@@ -90,10 +82,22 @@
 };
 
 &ethernet {
-	mtd-mac-address = <&factory 0x28>;
+	nvmem-cells = <&macaddr_factory_28>;
+	nvmem-cell-names = "mac-address";
 };
 
 &wmac {
 	status = "okay";
+
+	mediatek,mtd-eeprom = <&factory 0x0>;
 };
 
+&factory {
+	compatible = "nvmem-cells";
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	macaddr_factory_28: macaddr@28 {
+		reg = <0x28 0x6>;
+	};
+};
